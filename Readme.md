@@ -25,6 +25,17 @@ contact email: frankuchenna30@gmail.com
     - http://localhost:8000/
     - http://localhost:8000/redoc/
 
+## To Create Test Data
+
+    - Go to admin dashboard.
+    - Then locate BookingInfos table
+    - click to load table.
+    - from the data on the table, update the following informations to create a resevation
+        - set isBooked==Yes
+        - set check_in date
+        - set check_out date
+    - Then go back to admin bashboard home page, click on Resevation to view reservations created.
+
 ## Test Case example:
 
 For covering more test cases we are going to need at least one hotel with 3 Hotel Room Types:

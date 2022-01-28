@@ -101,6 +101,13 @@ class Reservation(models.Model):
 
 @receiver(post_save, sender=BookingInfo)
 def onBooked(instance, **kwargs):
+    """
+        This signal will create or delete a reservation for everytime BookingInfo instance
+        is updated by setting;
+        isBooked: True
+        check_in: date
+        check_out: date
+    """
     reservation_instance = Reservation()
     if instance.isBooked == True and (instance.check_in and instance.check_out) is not None:
         if not Reservation.objects.filter(booking_info_id=instance.id).exists():
