@@ -4,7 +4,11 @@ from django.urls import path
 from listings.api.views import ListingApiView, BookingInfoApiView, AvailableListingsApiView
 
 urlpatterns = [
-    path('listing/', ListingApiView.as_view(), name="listing"),
+    path('listings/', ListingApiView.as_view(), name="listings"),
     path('bookingInfos/', BookingInfoApiView.as_view(), name="bookingInfos"),
-    path('unit/', AvailableListingsApiView.as_view(), name="unit"),
+    path(
+        'available_listings/',
+        AvailableListingsApiView.as_view(),
+        name="available_listings"
+    ),
 ]

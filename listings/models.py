@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models.signals import post_save, pre_save
+from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 
@@ -100,14 +100,10 @@ class Reservation(models.Model):
 
 
 @receiver(post_save, sender=BookingInfo)
-def onBooked(created, instance, **kwargs):
+def onBooked(instance, **kwargs):
     reservation_instance = Reservation()
 
     reservation_instance.booking_info_id = instance.id
     reservation_instance.check_in = instance.check_in
     reservation_instance.check_out = instance.check_out
     reservation_instance.save()
-
-    if created:
-        instance.isBooked = True
-        instance.save()
