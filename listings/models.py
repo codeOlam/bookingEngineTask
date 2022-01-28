@@ -72,6 +72,8 @@ class BookingInfo(models.Model):
         decimal_places=2,
     )
     isBooked = models.BooleanField(default=False, null=True, blank=True)
+    check_in = models.DateField(null=True, blank=True)
+    check_out = models.DateField(null=True, blank=True)
 
     def __str__(self):
         if self.listing:
@@ -83,24 +85,29 @@ class BookingInfo(models.Model):
 
 
 class Reservation(models.Model):
-    check_in = models.DateField()
-    check_out = models.DateField()
     booking_info = models.ForeignKey(
         BookingInfo,
         blank=True,
         null=True,
         on_delete=models.CASCADE,
-        related_name='booking_info'
+        related_name='reservation'
     )
+    check_in = models.DateField()
+    check_out = models.DateField()
 
     def __str__(self):
         return f'{self.booking_info}'
 
 
-@receiver(post_save, sender=Reservation)
-def onReservation(sender, created, instance, **kwargs):
-    booking_info_instance = BookingInfo.objects.get(
-        pk=instance.booking_info.id)
+@receiver(post_save, sender=BookingInfo)
+def onBooked(created, instance, **kwargs):
+    reservation_instance = Reservation()
+
+    reservation_instance.booking_info_id = instance.id
+    reservation_instance.check_in = instance.check_in
+    reservation_instance.check_out = instance.check_out
+    reservation_instance.save()
+
     if created:
-        booking_info_instance.isBooked = True
-        booking_info_instance.save()
+        instance.isBooked = True
+        instance.save()
