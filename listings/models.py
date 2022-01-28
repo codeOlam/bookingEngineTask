@@ -1,5 +1,4 @@
 from django.db import models
-from django.core.validators import MaxValueValidator, MinValueValidator
 
 class Listing(models.Model):
     HOTEL = 'hotel'
@@ -68,7 +67,6 @@ class BookingInfo(models.Model):
     price = models.DecimalField(
         max_digits=6, 
         decimal_places=2, 
-        validators=[MaxValueValidator(100), MinValueValidator(10)]
     )
 
     def __str__(self):
