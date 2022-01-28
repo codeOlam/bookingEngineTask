@@ -2,8 +2,12 @@
 
 The test project won't be used in any real environment.
 
-Applicant Name: Frank Uchenna
-contact email: frankuchenna30@gmail.com
+Applicant contact:
+
+    Name: Frank Uchenna
+    email: frankuchenna30@gmail.com
+    skype: live:.cid.c1fad7f458b06ab8
+    linkedIn: https://www.linkedin.com/in/frank-uchenna-88718813a/
 
 ## Initial Project setup
 
