@@ -92,8 +92,8 @@ class Reservation(models.Model):
         on_delete=models.CASCADE,
         related_name='reservation'
     )
-    check_in = models.DateField()
-    check_out = models.DateField()
+    check_in = models.DateField(null=True, blank=True)
+    check_out = models.DateField(null=True, blank=True)
 
     def __str__(self):
         return f'{self.booking_info}'
@@ -102,8 +102,17 @@ class Reservation(models.Model):
 @receiver(post_save, sender=BookingInfo)
 def onBooked(instance, **kwargs):
     reservation_instance = Reservation()
+    if instance.isBooked == True and (instance.check_in and instance.check_out) is not None:
+        if not Reservation.objects.filter(booking_info_id=instance.id).exists():
+            reservation_instance.booking_info_id = instance.id
+            reservation_instance.check_in = instance.check_in
+            reservation_instance.check_out = instance.check_out
+            reservation_instance.save()
 
-    reservation_instance.booking_info_id = instance.id
-    reservation_instance.check_in = instance.check_in
-    reservation_instance.check_out = instance.check_out
-    reservation_instance.save()
+    elif instance.isBooked == False and (instance.check_in and instance.check_out) is None:
+        reservation_instance = Reservation.objects.filter(
+            booking_info_id=instance.id
+        )
+
+        if reservation_instance.exists():
+            reservation_instance.delete()
