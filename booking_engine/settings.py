@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     # Third-party Apps
     'rest_framework',
+    'drf_yasg',
 
     # Local apps
     'listings',
