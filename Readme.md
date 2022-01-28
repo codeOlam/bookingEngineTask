@@ -4,19 +4,23 @@ The test project won't be used in any real environment.
 
 Applicant's contact:
 
-    Name: **Frank Uchenna**
-    email: **frankuchenna30@gmail.com**
-    skype: **live:.cid.c1fad7f458b06ab8**
-    linkedIn: [link](https://www.linkedin.com/in/frank-uchenna-88718813a/)
-    github: [link](https://github.com/codeOlam)
+Name: **Frank Uchenna**
+email: **frankuchenna30@gmail.com**
+skype: **live:.cid.c1fad7f458b06ab8**
+[linkedIn](https://www.linkedin.com/in/frank-uchenna-88718813a/)
+[github](https://github.com/codeOlam)
+
+## Submitted Code 
+
+originally cloned from: https://bitbucket.org/staykeepersdev/bookingengine.git
+
+completed task can be cloned from: 
+    $git clone git@github.com:codeOlam/bookingEngineTask.git
+
+**Or** 
+[downloaded as zip file](https://github.com/codeOlam/bookingEngineTask/archive/refs/heads/main.zip)
 
 ## Initial Project setup
-
-    originally cloned from: https://bitbucket.org/staykeepersdev/bookingengine.git
-
-    completed task can be cloned from: git@github.com:codeOlam/bookingEngineTask.git
-    **Or** 
-    downloaded as zip file from: [link](https://github.com/codeOlam/bookingEngineTask/archive/refs/heads/main.zip)
 
     python -m venv venv
     pip install -r requirements.txt
