@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # Third-party Apps
     'rest_framework',
     'drf_yasg',
+    'django_filters',
 
     # Local apps
     'listings',
