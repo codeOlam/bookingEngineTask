@@ -2,13 +2,14 @@
 
 The test project won't be used in any real environment.
 
+Applicant Name: Frank Uchenna
 contact email: frankuchenna30@gmail.com
 
 ## Initial Project setup
 
     originally cloned from: https://bitbucket.org/staykeepersdev/bookingengine.git
 
-    completed task can be cloned from:
+    completed task can be cloned from: https://github.com/codeOlam/bookingEngineTask
 
     python -m venv venv
     pip install -r requirements.txt
@@ -30,25 +31,25 @@ contact email: frankuchenna30@gmail.com
     - Go to admin dashboard.
     - Then locate BookingInfos table
     - click to load table.
-    - from the data on the table, update the following informations to create a resevation
-        - set isBooked==Yes
-        - set check_in date
-        - set check_out date
-    - Then go back to admin bashboard home page, click on Resevation to view reservations created.
+    - from the data on the table, update the following informations to create a reservation
+        - set isBooked: Yes
+        - set check_in: date
+        - set check_out: date
+    - Then go back to admin bashboard home page, click on Reservation to view reservations created.
 
 ## Test Case example:
 
-For covering more test cases we are going to need at least one hotel with 3 Hotel Room Types:
+    For covering more test cases we are going to need at least one hotel with 3 Hotel Room Types:
 
-- First with price=50 (below max_price) with blocked day inside the search criteria for all rooms(could be 1 room)
+    - First with price=50 (below max_price) with blocked day inside the search criteria for all rooms(could be 1 room)
 
-- Second with price=60 (below max_price) with blocked day insde the search criteria for one out of few rooms
+    - Second with price=60 (below max_price) with blocked day insde the search criteria for one out of few rooms
 
-- Third with price 200 (above max_price)
+    - Third with price 200 (above max_price)
 
 ## Request example:
 
-http://localhost:8000/api/v1/units/?max_price=100&check_in=2021-12-09&check_out=2021-12-12
+    http://localhost:8000/api/v1/units/?max_price=100&check_in=2021-12-09&check_out=2021-12-12
 
 ## Response example:
 
