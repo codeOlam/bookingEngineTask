@@ -47,6 +47,15 @@ class HotelRoom(models.Model):
         related_name='hotel_rooms'
     )
     room_number = models.CharField(max_length=255,)
+    price = models.DecimalField(
+        max_digits=6,
+        decimal_places=2,
+        blank=True,
+        null=True,
+    )
+    isBooked = models.BooleanField(default=False, null=True, blank=True)
+    check_in = models.DateField(null=True, blank=True)
+    check_out = models.DateField(null=True, blank=True)
 
     def __str__(self):
         return self.room_number
@@ -71,9 +80,7 @@ class BookingInfo(models.Model):
         max_digits=6,
         decimal_places=2,
     )
-    isBooked = models.BooleanField(default=False, null=True, blank=True)
-    check_in = models.DateField(null=True, blank=True)
-    check_out = models.DateField(null=True, blank=True)
+
 
     def __str__(self):
         if self.listing:
@@ -85,8 +92,15 @@ class BookingInfo(models.Model):
 
 
 class Reservation(models.Model):
-    booking_info = models.ForeignKey(
-        BookingInfo,
+    hotel_room = models.ForeignKey(
+        HotelRoom, 
+        blank=True, 
+        null=True, 
+        on_delete=models.CASCADE,
+        related_name='reservation'
+    )
+    hotel_room_type = models.ForeignKey(
+        HotelRoomType,
         blank=True,
         null=True,
         on_delete=models.CASCADE,
@@ -96,10 +110,10 @@ class Reservation(models.Model):
     check_out = models.DateField(null=True, blank=True)
 
     def __str__(self):
-        return f'{self.booking_info}'
+        return f'{self.hotel_room}'
 
 
-@receiver(post_save, sender=BookingInfo)
+@receiver(post_save, sender=HotelRoom)
 def onBooked(instance, **kwargs):
     """
         This signal will create or delete a reservation for everytime BookingInfo instance
@@ -110,15 +124,16 @@ def onBooked(instance, **kwargs):
     """
     reservation_instance = Reservation()
     if instance.isBooked == True and (instance.check_in and instance.check_out) is not None:
-        if not Reservation.objects.filter(booking_info_id=instance.id).exists():
-            reservation_instance.booking_info_id = instance.id
+        if not Reservation.objects.filter(hotel_room_id=instance.id).exists():
+            reservation_instance.hotel_room_id = instance.id
+            reservation_instance.hotel_room_type_id = instance.hotel_room_type_id
             reservation_instance.check_in = instance.check_in
             reservation_instance.check_out = instance.check_out
             reservation_instance.save()
 
     elif instance.isBooked == False and (instance.check_in and instance.check_out) is None:
         reservation_instance = Reservation.objects.filter(
-            booking_info_id=instance.id
+            hotel_room_id=instance.id
         )
 
         if reservation_instance.exists():

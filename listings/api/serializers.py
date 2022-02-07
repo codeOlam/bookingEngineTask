@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from listings.models import Listing, BookingInfo
+from listings.models import HotelRoom, HotelRoomType, Listing, BookingInfo
 
 
 class ListingSerializer(serializers.ModelSerializer):
@@ -14,10 +14,16 @@ class BookingInfoSerializer(serializers.ModelSerializer):
         model = BookingInfo
         fields = '__all__'
 
+class HotelRoomTypeSerializer(serializers.ModelSerializer):
+    hotel = ListingSerializer(required=True)
+    class Meta:
+        model = HotelRoomType
+        fields = ['hotel']
+
 
 class AvailableListingsSerializer(serializers.ModelSerializer):
-    listing = ListingSerializer(required=True)
+    hotel_room_type = HotelRoomTypeSerializer(required=True)
 
     class Meta:
-        model = BookingInfo
-        fields = ['id', 'listing', 'price']
+        model = HotelRoom
+        fields = ['hotel_room_type', 'price']

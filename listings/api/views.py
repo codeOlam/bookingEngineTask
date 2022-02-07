@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
 
-from listings.models import Listing, BookingInfo
+from listings.models import Listing, BookingInfo, HotelRoom
 
 from .serializers import ListingSerializer, BookingInfoSerializer, AvailableListingsSerializer
 
@@ -30,7 +30,7 @@ class ListingApiView(views.APIView):
 
 
 class BookingInfoApiView(views.APIView):
-    serializer_class = ListingSerializer
+    serializer_class = BookingInfoSerializer
 
     def get(self, request):
         bookingInfo = BookingInfo.objects.all().order_by('price')
@@ -49,8 +49,28 @@ class BookingInfoApiView(views.APIView):
 
         return Response(response_payload, status=status.HTTP_200_OK)
 
+class AllHotelRoomsApiView(views.APIView):
+    serializer_class = AvailableListingsSerializer
 
-class BookingInfoFilter(filters.FilterSet):
+    def get(self, request):
+        hotelRoom = HotelRoom.objects.all().order_by('price')
+        serializer = AvailableListingsSerializer(hotelRoom, many=True)
+
+        data = serializer.data
+
+        response_payload = {
+            'status': {
+                'message': 'success',
+                'code': f"{status.HTTP_200_OK} OK"
+            },
+            'hotelRooms': data,
+            'response_code': status.HTTP_200_OK,
+        }
+
+        return Response(response_payload, status=status.HTTP_200_OK)
+
+
+class HotelRoomFilter(filters.FilterSet):
     max_price = filters.NumberFilter(field_name="price", lookup_expr='lte')
     check_in = filters.DateFilter(
         field_name="check_in", exclude=True, lookup_expr='gte')
@@ -58,12 +78,12 @@ class BookingInfoFilter(filters.FilterSet):
         field_name="check_out", exclude=True, lookup_expr='lte')
 
     class Meta:
-        model = BookingInfo
+        model = HotelRoom
         fields = ['check_in', 'check_out', 'max_price']
 
 
 class AvailableListingsApiView(generics.ListAPIView):
     serializer_class = AvailableListingsSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_class = BookingInfoFilter
-    queryset = BookingInfo.objects.all().order_by('price')
+    filterset_class = HotelRoomFilter
+    queryset = HotelRoom.objects.all().order_by('price')
